@@ -161,7 +161,8 @@ class Worldview(cocos.layer.Layer):
 
         # load resources:
         pics = {}
-        pics["player"] = pyglet.resource.image('player7.png')
+
+        pics["player"] = pyglet.resource.image('data/bull.png')
         pics["food"] = pyglet.resource.image('circle6.png')
         pics["wall"] = pyglet.resource.image('circle6.png')
         self.pics = pics
