@@ -49,7 +49,7 @@ consts = {
         # the setting is retained anyway to not downgrade the code
         "font_name": 'Axaxax',
         "palette": {
-            'bg': (0, 65, 133),
+            'bg': (0, 75, 183),
             'player': (237, 27, 36),
             'wall': (247, 148, 29),
             'gate': (140, 198, 62),
@@ -202,7 +202,7 @@ class Worldview(cocos.layer.Layer):
 
     def level_losed(self):
         self.win_status = 'losed'
-        msg = 'ouchhh !!!'
+        msg = 'ouchhh!!! R I P'
         self.fn_show_message(msg, callback=self.ladder_begin)
 
     def level_next(self):
@@ -353,11 +353,15 @@ class Worldview(cocos.layer.Layer):
 
         mvd = buttons['down']
         if buttons['down'] != 0:
+<<<<<<< HEAD
             newVel += dt * mv * self.decel * self.impulse_dir
             nv = newVel.magnitude()
     
            
           
+=======
+            newVel *= 0.8 #dt * mv * self.accel * self.impulse_dir
+>>>>>>> e5a9e98e8a6cb37bcaad9adeae8e7ba1b649da0a
             
 
         ppos = self.player.cshape.center
