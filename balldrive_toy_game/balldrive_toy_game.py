@@ -161,7 +161,7 @@ class Worldview(cocos.layer.Layer):
 
         # load resources:
         pics = {}
-        pics["player"] = pyglet.resource.image('player7.png')
+        pics["player"] = pyglet.resource.image('grossini.png')
         pics["food"] = pyglet.resource.image('circle6.png')
         pics["wall"] = pyglet.resource.image('circle6.png')
         self.pics = pics
@@ -184,7 +184,7 @@ class Worldview(cocos.layer.Layer):
     def ladder_begin(self):
         self.level_num = 0
         self.empty_level()
-        msg = 'balldrive'
+        msg = 'sheepdrive'
         self.fn_show_message(msg, callback=self.level_launch)
 
     def level_launch(self):
@@ -353,15 +353,13 @@ class Worldview(cocos.layer.Layer):
 
         mvd = buttons['down']
         if buttons['down'] != 0:
-<<<<<<< HEAD
-            newVel += dt * mv * self.decel * self.impulse_dir
+            newVel += dt * mvd * self.decel * self.impulse_dir
             nv = newVel.magnitude()
+            if nv > self.topSpeed:
+                newVel *= self.topSpeed / nv
     
            
           
-=======
-            newVel *= 0.8 #dt * mv * self.accel * self.impulse_dir
->>>>>>> e5a9e98e8a6cb37bcaad9adeae8e7ba1b649da0a
             
 
         ppos = self.player.cshape.center
