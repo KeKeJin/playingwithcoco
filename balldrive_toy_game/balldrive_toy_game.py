@@ -36,6 +36,7 @@ consts = {
         "topSpeed": 100.0,
         "angular_velocity": 240.0,  # degrees / s
         "accel": 85.0,
+        "decel": -85.0,
         "bindings": {
             key.DOWN: 'down',
             key.LEFT: 'left',
@@ -156,6 +157,7 @@ class Worldview(cocos.layer.Layer):
         self.topSpeed = world['topSpeed']
         self.angular_velocity = world['angular_velocity']
         self.accel = world['accel']
+        self.decel = world['decel']
 
         # load resources:
         pics = {}
@@ -351,7 +353,11 @@ class Worldview(cocos.layer.Layer):
 
         mvd = buttons['down']
         if buttons['down'] != 0:
-            newVel *= 0.0 #dt * mv * self.accel * self.impulse_dir
+            newVel += dt * mv * self.decel * self.impulse_dir
+            nv = newVel.magnitude()
+    
+           
+          
             
 
         ppos = self.player.cshape.center
