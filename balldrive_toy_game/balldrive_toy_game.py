@@ -49,11 +49,11 @@ consts = {
         # the setting is retained anyway to not downgrade the code
         "font_name": 'Axaxax',
         "palette": {
-            'bg': (0, 75, 183),
-            'player': (237, 27, 36),
-            'wall': (247, 148, 29),
-            'gate': (140, 198, 62),
-            'food': (140, 198, 62)
+            'bg': (100, 100, 100),
+            'player': (237, 0, 0),
+            'wall': (255, 255, 255),
+            'gate': (255, 255, 255),
+            'food': (255, 255, 255)
         }
     }
 }
@@ -224,7 +224,7 @@ class Worldview(cocos.layer.Layer):
         self.win_status = 'intermission'  # | 'undecided' | 'conquered' | 'losed'
 
         # player phys params
-        self.topSpeed = 75.0  # 50.
+        self.topSpeed = 150.0  # 50.
         self.impulse_dir = eu.Vector2(0.0, 1.0)
         self.impulseForce = 0.0
 
