@@ -49,11 +49,11 @@ consts = {
         # the setting is retained anyway to not downgrade the code
         "font_name": 'Axaxax',
         "palette": {
-            'bg': (0, 75, 183),
-            'player': (237, 27, 36),
-            'wall': (247, 148, 29),
-            'gate': (140, 198, 62),
-            'food': (140, 198, 62)
+            'bg': (100, 100, 100),
+            'player': (237, 0, 0),
+            'wall': (255, 255, 255),
+            'gate': (255, 255, 255),
+            'food': (255, 255, 255)
         }
     }
 }
