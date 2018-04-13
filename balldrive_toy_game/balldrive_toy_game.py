@@ -22,8 +22,13 @@ import cocos.actions as ac
 fe = 1.0e-4
 consts = {
     "window": {
+<<<<<<< HEAD
         "width": 1600,
         "height": 1200,
+=======
+        "width": 1200,
+        "height": 800,
+>>>>>>> f474bf683e8f35b1d2823b3cbd1fd0ddd3d2eca4
         "vsync": True,
         "resizable": True
     },
@@ -163,8 +168,8 @@ class Worldview(cocos.layer.Layer):
         pics = {}
 
         pics["player"] = pyglet.resource.image('data/bull.png')
-        pics["food"] = pyglet.resource.image('circle6.png')
-        pics["wall"] = pyglet.resource.image('circle6.png')
+        pics["food"] = pyglet.resource.image('data/sheep.png')
+        pics["wall"] = pyglet.resource.image('data/hippo.png')
         self.pics = pics
 
         cell_size = self.rPlayer * self.wall_scale_max * 2.0 * 1.25
