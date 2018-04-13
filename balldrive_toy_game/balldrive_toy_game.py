@@ -22,8 +22,8 @@ import cocos.actions as ac
 fe = 1.0e-4
 consts = {
     "window": {
-        "width": 800,
-        "height": 600,
+        "width": 1200,
+        "height": 800,
         "vsync": True,
         "resizable": True
     },
@@ -74,7 +74,7 @@ class Actor(cocos.sprite.Sprite):
     def __init__(self, cx, cy, radius, btype, img, vel=None):
         super(Actor, self).__init__(img)
         # the 1.05 so that visual radius a bit greater than collision radius
-        self.scale = (radius * 1.05) * scale_x / (self.image.width / 2.0)
+        self.scale = (radius * 3.00) * scale_x / (self.image.width / 2.0)
         self.btype = btype
         self.color = self.palette[btype]
         self.cshape = cm.CircleShape(eu.Vector2(cx, cy), radius)
@@ -162,8 +162,8 @@ class Worldview(cocos.layer.Layer):
         # load resources:
         pics = {}
         pics["player"] = pyglet.resource.image('data/bull.png')
-        pics["food"] = pyglet.resource.image('circle6.png')
-        pics["wall"] = pyglet.resource.image('circle6.png')
+        pics["food"] = pyglet.resource.image('data/sheep.png')
+        pics["wall"] = pyglet.resource.image('data/hippo.png')
         self.pics = pics
 
         cell_size = self.rPlayer * self.wall_scale_max * 2.0 * 1.25
