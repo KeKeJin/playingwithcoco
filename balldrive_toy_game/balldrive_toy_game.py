@@ -50,7 +50,7 @@ consts = {
         "font_name": 'Axaxax',
         "palette": {
             'bg': (100, 100, 100),
-            'player': (237, 0, 0),
+            'player': (200, 150, 150),
             'wall': (255, 255, 255),
             'gate': (255, 255, 255),
             'food': (255, 255, 255)
@@ -185,7 +185,7 @@ class Worldview(cocos.layer.Layer):
     def ladder_begin(self):
         self.level_num = 0
         self.empty_level()
-        msg = 'bulldrive'
+        msg = 'an angry bull spawns'
         self.fn_show_message(msg, callback=self.level_launch)
 
     def level_launch(self):
@@ -203,7 +203,7 @@ class Worldview(cocos.layer.Layer):
 
     def level_losed(self):
         self.win_status = 'losed'
-        msg = 'ouchhh!!! R I P'
+        msg = 'ouchhh!!! angry hippo'
         self.fn_show_message(msg, callback=self.ladder_begin)
 
     def level_next(self):
@@ -224,7 +224,7 @@ class Worldview(cocos.layer.Layer):
         self.win_status = 'intermission'  # | 'undecided' | 'conquered' | 'losed'
 
         # player phys params
-        self.topSpeed = 150.0  # 50.
+        self.topSpeed = 1000.0  # 50.
         self.impulse_dir = eu.Vector2(0.0, 1.0)
         self.impulseForce = 0.0
 
