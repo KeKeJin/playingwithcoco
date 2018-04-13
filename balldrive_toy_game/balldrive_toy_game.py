@@ -22,13 +22,8 @@ import cocos.actions as ac
 fe = 1.0e-4
 consts = {
     "window": {
-<<<<<<< HEAD
         "width": 1600,
         "height": 1200,
-=======
-        "width": 1200,
-        "height": 800,
->>>>>>> f474bf683e8f35b1d2823b3cbd1fd0ddd3d2eca4
         "vsync": True,
         "resizable": True
     },
@@ -190,7 +185,7 @@ class Worldview(cocos.layer.Layer):
     def ladder_begin(self):
         self.level_num = 0
         self.empty_level()
-        msg = 'sheepdrive'
+        msg = 'bulldrive'
         self.fn_show_message(msg, callback=self.level_launch)
 
     def level_launch(self):
