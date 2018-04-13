@@ -52,7 +52,7 @@ consts = {
             'bg': (100, 100, 100),
             'player': (200, 150, 150),
             'wall': (255, 255, 255),
-            'gate': (255, 255, 255),
+            'gate': (255, 0, 0),
             'food': (255, 255, 255)
         }
     }
@@ -185,7 +185,13 @@ class Worldview(cocos.layer.Layer):
         self.level_num = 0
         self.empty_level()
         msg = 'an angry bull spawns'
-        self.fn_show_message(msg, callback=self.level_launch)
+        self.fn_show_message(msg, callback=self.ladder_begin_2)
+
+    def ladder_begin_2(self):
+        self.level_num = 0
+        self.empty_level()
+        msg2 = 'try to get all the sheep...\nbut beware of hippo'
+        self.fn_show_message(msg2, callback=self.level_launch)
 
     def level_launch(self):
         self.generate_random_level()
