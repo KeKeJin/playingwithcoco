@@ -202,7 +202,7 @@ class Worldview(cocos.layer.Layer):
 
     def level_losed(self):
         self.win_status = 'losed'
-        msg = 'ouchhh!!! R I P'
+        msg = 'ouchhh!!! angry hippo'
         self.fn_show_message(msg, callback=self.ladder_begin)
 
     def level_next(self):
