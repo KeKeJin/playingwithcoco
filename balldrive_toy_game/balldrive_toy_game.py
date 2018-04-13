@@ -184,7 +184,7 @@ class Worldview(cocos.layer.Layer):
     def ladder_begin(self):
         self.level_num = 0
         self.empty_level()
-        msg = 'sheepdrive'
+        msg = 'an angry bull spawns'
         self.fn_show_message(msg, callback=self.level_launch)
 
     def level_launch(self):
