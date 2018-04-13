@@ -50,7 +50,7 @@ consts = {
         "font_name": 'Axaxax',
         "palette": {
             'bg': (100, 100, 100),
-            'player': (237, 0, 0),
+            'player': (200, 150, 150),
             'wall': (255, 255, 255),
             'gate': (255, 255, 255),
             'food': (255, 255, 255)
@@ -223,7 +223,7 @@ class Worldview(cocos.layer.Layer):
         self.win_status = 'intermission'  # | 'undecided' | 'conquered' | 'losed'
 
         # player phys params
-        self.topSpeed = 75.0  # 50.
+        self.topSpeed = 1000.0  # 50.
         self.impulse_dir = eu.Vector2(0.0, 1.0)
         self.impulseForce = 0.0
 
