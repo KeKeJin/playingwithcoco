@@ -19,6 +19,8 @@ from cocos.director import director
 import cocos.collision_model as cm
 import cocos.euclid as eu
 import cocos.actions as ac
+from cocos.layer import Layer
+from cocos.scene import Scene
 
 fe = 1.0e-4
 consts = {
@@ -70,6 +72,18 @@ def world_to_view(v):
     """world coords to view coords; v an eu.Vector2, returns (float, float)"""
     return v.x * scale_x, v.y * scale_y
 
+class BackgroundLayer(Layer):
+
+    def __init__(self):
+        # always call super()
+        super(BackgroundLayer, self).__init__()
+
+        # load the image form file
+        self.image = pyglet.resource.image('space.png')
+
+    def draw(self):
+        # blit the image on every frame
+        self.image.blit(0, 0)
 
 class Actor(cocos.sprite.Sprite):
     palette = {}  # injected later
@@ -442,7 +456,11 @@ def main():
     # make window
     director.init(**consts['window'])
     #pyglet.font.add_directory('.') # adjust as necessary if font included
-    scene = cocos.scene.Scene()
+    # scene = cocos.scene.Scene()
+    #director.init(resizable=True)
+    
+
+    scene = Scene(BackgroundLayer())
     palette = consts['view']['palette']
     Actor.palette = palette
     r, g, b = palette['bg']
