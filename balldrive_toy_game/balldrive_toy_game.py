@@ -8,6 +8,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../..'))
 
 import random
 import math
+import numpy
 
 import pyglet
 from pyglet.window import key
@@ -42,6 +43,8 @@ consts = {
             key.LEFT: 'left',
             key.RIGHT: 'right',
             key.UP: 'up',
+            key.SPACE: "space",
+            key.T: 't'
         }
     },
     "view": {
@@ -364,7 +367,21 @@ class Worldview(cocos.layer.Layer):
             nv = newVel.magnitude()
             if nv > self.topSpeed:
                 newVel *= self.topSpeed / nv
-    
+
+        stop = buttons['space']
+        if stop != 0:
+            newVel *= 0
+        
+        #teleport
+        tel = buttons['t']
+        if tel != 0:
+            #ppos = self.player.cshape.center
+            newpos = eu.Vector2(42,42)
+            self.player.update_center(newpos)
+            newVel *= 0
+
+
+                
            
           
             
