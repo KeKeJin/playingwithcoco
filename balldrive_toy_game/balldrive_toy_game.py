@@ -9,6 +9,9 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '../..'))
 import random
 import math
 import numpy
+import time
+starttime = time.time()
+teleported = False
 
 import pyglet
 from pyglet.window import key
@@ -21,6 +24,10 @@ import cocos.euclid as eu
 import cocos.actions as ac
 from cocos.layer import Layer
 from cocos.scene import Scene
+#import cocos.audio.pygame.music
+# from cocos.audio.pygame.mixer import Sound
+# from cocos.audio.pygame import mixer
+
 
 fe = 1.0e-4
 consts = {
@@ -255,7 +262,7 @@ class Worldview(cocos.layer.Layer):
         # hardcoded params:
         food_num = 2
         food_scale = 1.0  # relative to player
-        wall_num = 2
+        wall_num = 0
         gate_scale = 1.5  # relative to player
         min_separation_rel = 3.0  # as fraction of player diameter
 
@@ -331,6 +338,7 @@ class Worldview(cocos.layer.Layer):
         z += 1
 
     def update(self, dt):
+        global teleported, starttime
         # if not playing dont update model
         if self.win_status != 'undecided':
             return
@@ -387,12 +395,21 @@ class Worldview(cocos.layer.Layer):
             newVel *= 0
         
         #teleport
+        if time.time() - starttime > 5:
+            teleported = False
+            starttime = time.time()
         tel = buttons['t']
-        if tel != 0:
+        if tel != 0 and teleported == False:
             #ppos = self.player.cshape.center
-            newpos = eu.Vector2(42,42)
-            self.player.update_center(newpos)
+            a = random.randint(50,350)
+            b = random.randint(50,250)
+            newpos = eu.Vector2(a,b)
+            print ("newpos is",newpos)
             newVel *= 0
+            self.player.update_center(newpos)
+            teleported = True
+            #newVel *= 0
+            #print ("newVel is",newVel.x,newVel.y)
 
 
                 
@@ -402,6 +419,7 @@ class Worldview(cocos.layer.Layer):
 
         ppos = self.player.cshape.center
         newPos = ppos
+        #print("pos is", newPos)
         r = self.player.cshape.r
         while dt > 1.e-6:
             newPos = ppos + dt * newVel
@@ -459,7 +477,8 @@ def main():
     # scene = cocos.scene.Scene()
     #director.init(resizable=True)
     
-
+    #cocos.audio.pygame.music.load("sound.ogg")
+    #s = Sound("sound.ogg")
     scene = Scene(BackgroundLayer())
     palette = consts['view']['palette']
     Actor.palette = palette
