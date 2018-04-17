@@ -86,7 +86,7 @@ class BackgroundLayer(Layer):
         super(BackgroundLayer, self).__init__()
 
         # load the image form file
-        self.image = pyglet.resource.image('space.png')
+        self.image = pyglet.resource.image('stars.jpg')
 
     def draw(self):
         # blit the image on every frame
