@@ -47,13 +47,15 @@ consts = {
         "angular_velocity": 240.0,  # degrees / s
         "accel": 85.0,
         "decel": -85.0,
+        "gatespeed": 85.0,
         "bindings": {
             key.DOWN: 'down',
             key.LEFT: 'left',
             key.RIGHT: 'right',
             key.UP: 'up',
             key.SPACE: "space",
-            key.T: 't'
+            key.T: 't',
+            key.G: 'g'
         }
     },
     "view": {
@@ -182,6 +184,7 @@ class Worldview(cocos.layer.Layer):
         self.angular_velocity = world['angular_velocity']
         self.accel = world['accel']
         self.decel = world['decel']
+        self.gatespeed = world['gatespeed']
 
         # load resources:
         pics = {}
@@ -201,10 +204,13 @@ class Worldview(cocos.layer.Layer):
         for k in self.bindings:
             buttons[self.bindings[k]] = 0
         self.buttons = buttons
-
-        self.toRemove = set()
         self.schedule(self.update)
+        self.toRemove = set()
+
         self.ladder_begin()
+      
+        
+
 
     def ladder_begin(self):
         self.level_num = 0
@@ -340,6 +346,7 @@ class Worldview(cocos.layer.Layer):
     def update(self, dt):
         global teleported, starttime
         # if not playing dont update model
+        gatespeed = self.gatespeed
         if self.win_status != 'undecided':
             return
         # buttons = self.buttons
@@ -393,6 +400,13 @@ class Worldview(cocos.layer.Layer):
         stop = buttons['space']
         if stop != 0:
             newVel *= 0
+
+
+        g = buttons['g']
+        newGateVel = self.gate.vel
+        if g != 0:
+            print ("it's time to move")
+            newGateVel = eu.Vector2(50.00,0.00)
         
         #teleport
         if time.time() - starttime > 5:
@@ -404,23 +418,19 @@ class Worldview(cocos.layer.Layer):
             a = random.randint(50,350)
             b = random.randint(50,250)
             newpos = eu.Vector2(a,b)
-            print ("newpos is",newpos)
+            #print ("newpos is",newpos)
             newVel *= 0
             self.player.update_center(newpos)
             teleported = True
-            #newVel *= 0
+            #newVel *g= 0
             #print ("newVel is",newVel.x,newVel.y)
-
-
-                
-           
-          
-            
 
         ppos = self.player.cshape.center
         newPos = ppos
+        #print( "newPos is",newPos)
         #print("pos is", newPos)
         r = self.player.cshape.r
+        original_dt = dt
         while dt > 1.e-6:
             newPos = ppos + dt * newVel
             consumed_dt = dt
@@ -428,23 +438,90 @@ class Worldview(cocos.layer.Layer):
             if newPos.x < r:
                 consumed_dt = (r - ppos.x) / newVel.x
                 newPos = ppos + consumed_dt * newVel
+                print ("...")
                 newVel = -reflection_y(newVel)
             if newPos.x > (self.width - r):
                 consumed_dt = (self.width - r - ppos.x) / newVel.x
                 newPos = ppos + consumed_dt * newVel
+                print (",,,")
                 newVel = -reflection_y(newVel)
             if newPos.y < r:
                 consumed_dt = (r - ppos.y) / newVel.y
                 newPos = ppos + consumed_dt * newVel
+                print(">>>")
                 newVel = reflection_y(newVel)
             if newPos.y > (self.height - r):
                 consumed_dt = (self.height - r - ppos.y) / newVel.y
                 newPos = ppos + consumed_dt * newVel
+                print("???")
                 newVel = reflection_y(newVel)
             dt -= consumed_dt
 
         self.player.vel = newVel
         self.player.update_center(newPos)
+        
+        
+        
+        
+        
+        
+        dt = original_dt
+
+
+        
+        
+            
+
+
+        rGate = self.gate.cshape.r
+        gateppos = self.gate.cshape.center
+        newGatePos = gateppos
+        gatespeed =  newGateVel
+        while dt > 1.e-6:
+            newGatePos = gateppos + dt * gatespeed
+            gateconsumed_dt = dt
+            # what about screen boundaries ? if colision bounce
+            if newGatePos.x < rGate:
+                gateconsumed_dt = (rGate - gateppos.x) / gatespeed.x
+                newGatePos = gateppos + gateconsumed_dt * gatespeed
+                gatespeed = -reflection_y(gatespeed)
+            if newGatePos.x > (self.width - rGate):
+                gateconsumed_dt = (self.width - rGate - gateppos.x) / gatespeed.x
+                newGatePos = gateppos + gateconsumed_dt * gatespeed
+                gatespeed = -reflection_y(gatespeed)
+            if newGatePos.y < rGate:
+                gateconsumed_dt = (rGate - gateppos.y) / gatespeed.y
+                newGatePos = gateppos + gateconsumed_dt * gatespeed
+                gatespeed = reflection_y(gatespeed)
+            if newGatePos.y > (self.height - rGate):
+                gateconsumed_dt = (self.height - rGate - gateppos.y) / gatespeed.y
+                newGatePos = gateppos + gateconsumed_dt * gatespeed
+                gatespeed = reflection_y(gatespeed)
+            dt -= gateconsumed_dt
+
+        self.gate.vel = gatespeed
+        self.gate.update_center(newGatePos)
+        #self.gate.update_center(newGatePos)
+        #print ("newgatepos is", newGatePos)
+        
+        
+
+                  
+
+                #     a = random.randint(50,350)
+                #     b = random.randint(50,250)
+                #     newpos = eu.Vector2(a,b)
+                #     print ("newpos is",newpos)
+                   
+                #     self.gate.update_center(newpos)
+
+
+            #     gatespeed == dt * mv * self.accel * self.impulse_dir
+            # gatespeed == self.gate.vel
+            # #the gate starts to move
+            # gateppos = self.gate.cshape.center
+            # newGatePos = gateppos
+            # #print("pos is", newPos)
 
         # at end of frame do removes; as collman is fully regenerated each frame
         # theres no need to update it here.
@@ -452,6 +529,7 @@ class Worldview(cocos.layer.Layer):
             self.remove(node)
         self.toRemove.clear()
 
+  
     def open_gate(self):
         self.gate.color = Actor.palette['gate']
 
