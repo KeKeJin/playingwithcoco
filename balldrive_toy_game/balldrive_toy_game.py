@@ -467,18 +467,7 @@ class Worldview(cocos.layer.Layer):
         self.player.vel = newVel
         self.player.update_center(newPos)
         
-        
-        
-        
-        
-        
         dt = original_dt
-
-
-        
-        
-            
-
 
         rGate = self.gate.cshape.r
         gateppos = self.gate.cshape.center
