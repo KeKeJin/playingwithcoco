@@ -86,7 +86,10 @@ class BackgroundLayer(Layer):
         super(BackgroundLayer, self).__init__()
 
         # load the image form file
-        self.image = pyglet.resource.image('stars.jpg')
+        backgroundList = ['stars.jpg', 'polygons.jpg', 'circle.jpg', 'sky.jpg', 'green.jpg']
+        import random
+        backgroundImg = random.choice(backgroundList)
+        self.image = pyglet.resource.image(backgroundImg)
 
     def draw(self):
         # blit the image on every frame
@@ -235,6 +238,10 @@ class Worldview(cocos.layer.Layer):
         self.win_status = 'losed'
         msg = 'ouchhh!!! angry hippo'
         self.fn_show_message(msg, callback=self.ladder_begin)
+
+    def bull_level(self):
+        self.create_bull_level()
+        
 
     def level_next(self):
         self.empty_level()
