@@ -277,7 +277,7 @@ class Worldview(cocos.layer.Layer):
         food_scale = 1.0  # relative to player
         wall_num = 0
         gate_scale = 1.5  # relative to player
-        min_separation_rel = 3.0  # as fraction of player diameter
+        min_separation_rel = 5.0  # as fraction of player diameter
 
         # build !
         width = self.width
@@ -298,7 +298,10 @@ class Worldview(cocos.layer.Layer):
 
         # add gate
         rGate = gate_scale * rPlayer
-        self.gate = Actor(cx, cy, rGate, 'gate', pics['wall'])
+        a = random.randint(50,350)
+        b = random.randint(50,250)
+        newGateVel = eu.Vector2(a, b)
+        self.gate = Actor(cx, cy, rGate, 'gate', pics['wall'], vel=newGateVel)
         self.gate.color = Actor.palette['wall']
         cntTrys = 0
         while cntTrys < 100:
@@ -408,12 +411,13 @@ class Worldview(cocos.layer.Layer):
         if stop != 0:
             newVel *= 0
 
-
-        g = buttons['g']
         newGateVel = self.gate.vel
-        if g != 0:
-            print ("it's time to move")
-            newGateVel = eu.Vector2(50.00,0.00)
+        gatecoll = False
+        # print (newVel.magnitude())
+        # print(self.impulse_dir)
+        a = random.randint(50,350)
+        b = random.randint(50,250)
+        newGateVel = eu.Vector2(a, b)
         
         #teleport
         if time.time() - starttime > 5:
@@ -463,6 +467,8 @@ class Worldview(cocos.layer.Layer):
                 print("???")
                 newVel = reflection_y(newVel)
             dt -= consumed_dt
+        
+
 
         self.player.vel = newVel
         self.player.update_center(newPos)
@@ -472,31 +478,49 @@ class Worldview(cocos.layer.Layer):
         rGate = self.gate.cshape.r
         gateppos = self.gate.cshape.center
         newGatePos = gateppos
+        newGateVel = self.gate.vel
         gatespeed =  newGateVel
+        gatecoll = False
         while dt > 1.e-6:
             newGatePos = gateppos + dt * gatespeed
             gateconsumed_dt = dt
+            a = random.randint(50,350)
+            b = random.randint(50,250)
             # what about screen boundaries ? if colision bounce
             if newGatePos.x < rGate:
                 gateconsumed_dt = (rGate - gateppos.x) / gatespeed.x
                 newGatePos = gateppos + gateconsumed_dt * gatespeed
                 gatespeed = -reflection_y(gatespeed)
+                newGateVel = eu.Vector2(a, b)
             if newGatePos.x > (self.width - rGate):
                 gateconsumed_dt = (self.width - rGate - gateppos.x) / gatespeed.x
                 newGatePos = gateppos + gateconsumed_dt * gatespeed
                 gatespeed = -reflection_y(gatespeed)
+                gatecoll = True
             if newGatePos.y < rGate:
                 gateconsumed_dt = (rGate - gateppos.y) / gatespeed.y
                 newGatePos = gateppos + gateconsumed_dt * gatespeed
                 gatespeed = reflection_y(gatespeed)
+                gatecoll = True
             if newGatePos.y > (self.height - rGate):
                 gateconsumed_dt = (self.height - rGate - gateppos.y) / gatespeed.y
                 newGatePos = gateppos + gateconsumed_dt * gatespeed
                 gatespeed = reflection_y(gatespeed)
+                gatecoll = True
+            else:
+                gatecoll = False
+            if gatecoll:
+                a = random.randint(50,350)
+                b = random.randint(50,250)
+                newGateVel = eu.Vector2(a, b)
+                gatecoll = False
             dt -= gateconsumed_dt
 
         self.gate.vel = gatespeed
         self.gate.update_center(newGatePos)
+
+        
+        
         #self.gate.update_center(newGatePos)
         #print ("newgatepos is", newGatePos)
         
