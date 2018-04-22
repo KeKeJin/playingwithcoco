@@ -301,7 +301,7 @@ class Worldview(cocos.layer.Layer):
         a = random.randint(50,350)
         b = random.randint(50,250)
         newGateVel = eu.Vector2(a, b)
-        self.gate = Actor(cx, cy, rGate, 'gate', pics['wall'], vel=newGateVel)
+        self.gate = Actor(cx, cy, rGate, 'gate', pics['wall'], vel=None)
         self.gate.color = Actor.palette['wall']
         cntTrys = 0
         while cntTrys < 100:
@@ -375,6 +375,7 @@ class Worldview(cocos.layer.Layer):
                 self.cnt_food -= 1
                 if not self.cnt_food:
                     self.open_gate()
+                    self.gate_open = True
 
             elif (typeball == 'wall' or
                   typeball == 'gate' and self.cnt_food > 0):
@@ -484,8 +485,6 @@ class Worldview(cocos.layer.Layer):
         while dt > 1.e-6:
             newGatePos = gateppos + dt * gatespeed
             gateconsumed_dt = dt
-            a = random.randint(50,350)
-            b = random.randint(50,250)
             # what about screen boundaries ? if colision bounce
             if newGatePos.x < rGate:
                 gateconsumed_dt = (rGate - gateppos.x) / gatespeed.x
@@ -509,7 +508,7 @@ class Worldview(cocos.layer.Layer):
                 gatecoll = True
             else:
                 gatecoll = False
-            if gatecoll:
+            if gatecoll and self.gate_open:
                 a = random.randint(50,350)
                 b = random.randint(50,250)
                 newGateVel = eu.Vector2(a, b)
@@ -519,12 +518,6 @@ class Worldview(cocos.layer.Layer):
         self.gate.vel = gatespeed
         self.gate.update_center(newGatePos)
 
-        
-        
-        #self.gate.update_center(newGatePos)
-        #print ("newgatepos is", newGatePos)
-        
-        
 
                   
 
@@ -552,6 +545,13 @@ class Worldview(cocos.layer.Layer):
   
     def open_gate(self):
         self.gate.color = Actor.palette['gate']
+
+        self.gate_open = True
+        newGateVel = self.gate.vel
+        a = random.randint(50,350)
+        b = random.randint(50,250)
+        newGateVel = eu.Vector2(a, b)
+        self.gate.vel = newGateVel
 
     def on_key_press(self, k, m):
         binds = self.bindings
