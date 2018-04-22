@@ -548,8 +548,8 @@ class Worldview(cocos.layer.Layer):
 
         self.gate_open = True
         newGateVel = self.gate.vel
-        a = random.randint(50,350)
-        b = random.randint(50,250)
+        a = random.randint(50/2,350/2)
+        b = random.randint(50/2,250/2)
         newGateVel = eu.Vector2(a, b)
         self.gate.vel = newGateVel
 
